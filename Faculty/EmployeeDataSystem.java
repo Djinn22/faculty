@@ -1,5 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import e_data.Employee;
 
 
@@ -158,10 +160,11 @@ public class EmployeeDataSystem
       employeeCount = employeeCount + 1;
       
       System.out.println(employeeCount);
-    
+      
+
    }
 
-   // displayEmployeeSummary()
+// displayEmployeeSummary()
    //
    // Implement the functionality required for Stage 2 
    // requirement B in this method if you wish, otherwise you

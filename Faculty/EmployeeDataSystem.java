@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.List;
 import e_data.Employee;
 
 
@@ -31,7 +31,8 @@ public class EmployeeDataSystem
    // declaring the array of Employee references and the employee
    // count here at the class level so that our helper methods can
    // access the array
-   private static final Employee[] employees = new Employee[50];
+   //private static final Employee[] employees = new Employee[50];
+   private static final ArrayList<Employee> employees = new ArrayList<Employee>();
    private static int employeeCount = 0;
   
 
@@ -136,30 +137,32 @@ public class EmployeeDataSystem
    // the switch statement in the main() method above.
    
    public static void addNewEmployee()
-   {
-      // delete this code when you start implementing this feature
-      System.out.println("Please enter all of the requested information below.");
-	  sc.nextLine();
+   {   
+       // delete this code when you start implementing this feature
+       System.out.println("Please enter all of the requested information below.");
 	  
-      System.out.println("Full Name: ");
-      String employeeName = sc.nextLine();
+       System.out.println("Full Name: ");
+       String name = sc.nextLine();
       
-      System.out.println("Employee Number: ");
-      String employeeNumber = sc.nextLine();
+       System.out.println("Employee Number: ");
+       String employeeNumber = sc.nextLine();
       
-      System.out.println("Employee Role: ");
-      String employeeRole = sc.nextLine();
+       System.out.println("Employee Role: ");
+       String role = sc.nextLine();
       
-      System.out.println("Employee Scale Level: ");
-      char employeePayScale = sc.findInLine(".").charAt(0);
+       System.out.println("Employee Scale Level: ");
+       char level = sc.findInLine(".").charAt(0);
+       sc.nextLine();
       
-      //int emp = employees.length + 1;
       
-      ArrayList<Employee>employees = new ArrayList<Employee>();
-      employees.add(new Employee(employeeNumber, employeeName, employeeRole, employeePayScale));
-      employeeCount = employeeCount + 1;
+       //int emp = employees.length + 1;
+       for(Employee s : employees){
+          if (employees.contains(name)) {
+    	     System.out.println("This employee already exists.");
+    	  } 
+       }
       
-      System.out.println(employeeCount);
+       System.out.println(employeeCount);
       
 
    }
@@ -173,10 +176,32 @@ public class EmployeeDataSystem
    
    public static void displayEmployeeSummary()
    {
+	   for(int i = 0; i < employees.size(); i++){
+
+	       Employee obj = employees.get(i);
+	       
+	    // print basic employee details
+	       System.out.printf("%-18s%s\n", "Employee Number:", obj.getEmployeeNumber());
+
+	       // use the accessor for name so that the overridden version can
+	       // be invoked polymorphically for an AcademicEmployee later on
+	       System.out.printf("%-18s%s\n", "Employee Name:", obj.getName());
+
+	       System.out.printf("%-18s%s\n", "Employee Role:", obj.getRole());
+	       System.out.printf("%-18s%c\n", "Pay Scale Level:", obj.getLevel());
+
+	       // get the salary for the employee and print it to the screen
+	       System.out.printf("%-18s$%.2f\n", "Employee Salary:", obj.getSalary());
+	       System.out.printf("\n");
+	       System.out.printf("-------------------------------------------");
+	       System.out.printf("\n");
+	       
+	       
+	   }
       // delete this code when you start implementing this feature
-      System.out.println();
-      System.out.println("Display Employee Summary Feature Selected");
-      System.out.println();
+     // System.out.println();
+      //System.out.println("Display Employee Summary Feature Selected");
+     // System.out.println();
    }
    
    // updateEmployeeTitleAndRole()

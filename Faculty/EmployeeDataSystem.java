@@ -179,7 +179,6 @@ public class EmployeeDataSystem
    public static void displayEmployeeSummary()
    {
 	   for(int i = 0; i < employees.size(); i++){
-		   //System.out.println(employees.get(i));
 	       Employee obj = employees.get(i);
 	   
 	    // print basic employee details
@@ -196,14 +195,8 @@ public class EmployeeDataSystem
 	       System.out.printf("%-18s$%.2f\n", "Employee Salary:", obj.getSalary());
 	       System.out.printf("\n");
 	       System.out.printf("-------------------------------------------");
-	       System.out.printf("\n");
-	       
-	       
+	       System.out.printf("\n");   
 	   }
-      // delete this code when you start implementing this feature
-     // System.out.println();
-      //System.out.println("Display Employee Summary Feature Selected");
-     // System.out.println();
    }
    
    // updateEmployeeTitleAndRole()
@@ -215,11 +208,32 @@ public class EmployeeDataSystem
    
    public static void updateEmployeePayScaleAndRole()
    {
-      // delete this code when you start implementing this feature
-      System.out.println();
-      System.out.println(
-                   "Update Employee Pay Scale Level / Role Feature Selected");
-      System.out.println();
+	   System.out.println("Enter the Employee number you wish to change: ");
+	   String employeeNumber = sc.nextLine();
+
+	   for(int i = 0; i < employees.size(); i++){
+	       Employee obj = employees.get(i);
+	       if(employeeNumber.equals(obj.getEmployeeNumber())) {
+	    	   System.out.println("Enter the new Pay Scale Level for this employee");
+	    	   char level = sc.findInLine(".").charAt(0);
+	    	   sc.nextLine();
+	    	     boolean valid = obj.updateLevel(level);
+	    	     if(valid)
+	    	     {
+	    	    	 System.out.println("This employee's level has been updated successfully. "
+	    	    	 		+ "Please enter a new role for this employee, or press enter to "
+	    	    	 		+ "levae the employee's role unchanged.");
+	    	    	 String role = sc.nextLine();
+	    	    	 if(role != "") {
+	    	    		 obj.setRole(role);
+	    	    	 }
+	    	     } else {
+	    	    	 System.out.println("This employee's level update has failed!");
+	    	     }
+	       }    
+	   }
+	   
+	   System.out.println("This employee could not be found!");
    }
    
    // addNewAcademicEmployee()

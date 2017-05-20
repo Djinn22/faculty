@@ -208,34 +208,42 @@ public class EmployeeDataSystem
    
    public static void updateEmployeePayScaleAndRole()
    {
-	   System.out.println("Enter the Employee number you wish to change: ");
+	   System.out.println("\n\nEnter the Employee number you wish to change: ");
 	   String employeeNumber = sc.nextLine();
+	   boolean found = false;
 
 	   for(int i = 0; i < employees.size(); i++){
 	       Employee obj = employees.get(i);
 	       if(employeeNumber.equals(obj.getEmployeeNumber())) {
-	    	   System.out.println("Enter the new Pay Scale Level for this employee");
+	    	   found = true;
+	    	   System.out.println("\nEnter the new Pay Scale Level for this employee");
 	    	   char level = sc.findInLine(".").charAt(0);
 	    	   sc.nextLine();
 	    	     boolean valid = obj.updateLevel(level);
 	    	     if(valid)
 	    	     {
-	    	    	 System.out.println("This employee's level has been updated successfully. "
+	    	    	 System.out.println("\nThis employee's level has been updated successfully. "
 	    	    	 		+ "Please enter a new role for this employee, or press enter to "
-	    	    	 		+ "levae the employee's role unchanged.");
+	    	    	 		+ "leave the employee's role unchanged.");
 	    	    	 String role = sc.nextLine();
-	    	    	 if(role != "") {
+	    	    	 if(!role.equals("")) {
 	    	    		 obj.setRole(role);
+	    	    		 System.out.println("\nThank you. This employee's role has been updated.");
+	    	    		 
+	    	    	 } else {
+	    	    		 System.out.println("\nThis employee's role has not been changed.");
 	    	    	 }
 	    	     } else {
-	    	    	 System.out.println("This employee's level update has failed!");
+	    	    	 System.out.println("\nThis employee's level update has failed!");
 	    	     }
-	       }    
-	   }
-	   
-	   System.out.println("This employee could not be found!");
+		   
+	       }
+	       if(found == false) {
+	 	   System.out.println("\nThis employee could not be found!");
+	       }
+	  }
    }
-   
+ 
    // addNewAcademicEmployee()
    //
    // Implement the functionality required for Stage 4 

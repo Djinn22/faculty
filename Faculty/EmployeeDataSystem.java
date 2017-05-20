@@ -2,7 +2,10 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import e_data.Employee;
+import java.util.Set;
+import java.util.HashSet;
+import employee.Employee;
+
 
 
 /*
@@ -138,34 +141,33 @@ public class EmployeeDataSystem
    
    public static void addNewEmployee()
    {   
-       // delete this code when you start implementing this feature
-       System.out.println("Please enter all of the requested information below.");
+      // delete this code when you start implementing this feature
+      System.out.println("Please enter all of the requested information below.");
 	  
-       System.out.println("Full Name: ");
-       String name = sc.nextLine();
+      System.out.println("Full Name: ");
+      String name = sc.nextLine();
       
-       System.out.println("Employee Number: ");
-       String employeeNumber = sc.nextLine();
+      System.out.println("Employee Number: ");
+      String employeeNumber = sc.nextLine();
       
-       System.out.println("Employee Role: ");
-       String role = sc.nextLine();
+      System.out.println("Employee Role: ");
+      String role = sc.nextLine();
       
-       System.out.println("Employee Scale Level: ");
-       char level = sc.findInLine(".").charAt(0);
-       sc.nextLine();
+      System.out.println("Employee Scale Level: ");
+      char level = sc.findInLine(".").charAt(0);
+      sc.nextLine();
+     
+      //List<Employee>employees = new ArrayList<Employee>();
+      employees.add(new Employee(employeeNumber, name, role, level));
+      /*Set<Employee> employeeSet = new HashSet<Employee>();
+      if(!employeeSet.contains(name)) {
+    	  employeeSet.add(new Employee(employeeNumber, name, role, level));
+      }*/
+      employeeCount = employeeCount + 1;
       
+      System.out.println(employeeCount);
       
-       //int emp = employees.length + 1;
-       for(Employee s : employees){
-          if (employees.contains(name)) {
-    	     System.out.println("This employee already exists.");
-    	  } 
-       }
-      
-       System.out.println(employeeCount);
-      
-
-   }
+      }
 
 // displayEmployeeSummary()
    //
@@ -177,9 +179,9 @@ public class EmployeeDataSystem
    public static void displayEmployeeSummary()
    {
 	   for(int i = 0; i < employees.size(); i++){
-
+		   //System.out.println(employees.get(i));
 	       Employee obj = employees.get(i);
-	       
+	   
 	    // print basic employee details
 	       System.out.printf("%-18s%s\n", "Employee Number:", obj.getEmployeeNumber());
 

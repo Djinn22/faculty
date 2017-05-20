@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>e_data/Employee.java</name>
-			<type>1</type>
-			<location>/Users/lloydhird/Documents/workspace/Faculty/e_data/Employee.java</location>
-		</link>
-	</linkedResources>
 </projectDescription>

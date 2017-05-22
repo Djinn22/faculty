@@ -1,4 +1,11 @@
 package employee;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * class Employee
  * 
@@ -29,7 +36,7 @@ public class Employee
 
    // constructor - requirement B)
    public Employee(String employeeNumber, String name, 
-                   String role, char level)
+         String role, char level)
    {
       this.employeeNumber = employeeNumber;
       this.name = name;
@@ -60,19 +67,19 @@ public class Employee
 
 
    // simple mutators - requirement D)
-   
+
    public void setRole(String role)
    {
       this.role = role;
    }
-   
-   
+
+
    // updateLevel() - requirement E) (i)
    //
    // Updates the current pay scale level to the level passed
    // in as a parameter IFF the new level falls within the valid
    // range of pay scale levels (ie. 'A' to 'E').
-   
+
    public boolean updateLevel(char level)
    {
       // check for invalid pay scale level
@@ -87,13 +94,26 @@ public class Employee
       }
    }
 
+   public boolean validLevelIsBetweenAandE(char level)
+         throws Exception
+   {
+      if (level < 'A' || level > 'E')
+      {
+         Exception exception = new Exception("The new level needs to be a single "
+               + "letter between A and E inclusive. You entered " + level);
+         throw exception;
+      }
+      this.level = level;
+      return true;
+   } 
+
    // getEmployeeSalary() - requirement E) (ii)
    //
    // Returns the salary for the employee based on their
    // current pay scale level - note that we are assuming
    // the current pay scale level will be within the valid
    // range of pay scale levels (ie. A' to 'E')
-   
+
    public double getSalary()
    {
       double salary;
@@ -139,7 +159,7 @@ public class Employee
       // use the accessor for name so that the overridden version can
       // be invoked polymorphically for an AcademicEmployee later on
       System.out.printf("%-18s%s\n", 
-                        "Employee Name:", getName());
+            "Employee Name:", getName());
 
       System.out.printf("%-18s%s\n", "Employee Role:", role);
       System.out.printf("%-18s%c\n", "Pay Scale Level:", level);
@@ -148,46 +168,61 @@ public class Employee
       System.out.printf("%-18s$%.2f\n", "Employee Salary:", getSalary());
    }
 
-@Override
-public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + ((employeeNumber == null) ? 0 : employeeNumber.hashCode());
-	result = prime * result + level;
-	result = prime * result + ((name == null) ? 0 : name.hashCode());
-	result = prime * result + ((role == null) ? 0 : role.hashCode());
-	return result;
+//   public void save(String fileName) throws FileNotFoundException {
+//      PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
+//      for(int i = 0; i < employees.size(); i++){
+//          pw.println(employees.getName());
+//      pw.close();
+//   }
+      
+      public static String listToString(List<?> list) {
+         String result = "+";
+         for (int i = 0; i < list.size(); i++) {
+             result += " " + list.get(i);
+         }
+         return result;
+     }
+      
+   @Override
+   public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + ((employeeNumber == null) ? 0 : employeeNumber.hashCode());
+      result = prime * result + level;
+      result = prime * result + ((name == null) ? 0 : name.hashCode());
+      result = prime * result + ((role == null) ? 0 : role.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals(Object obj) {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (getClass() != obj.getClass())
+         return false;
+      Employee other = (Employee) obj;
+      if (employeeNumber == null) {
+         if (other.employeeNumber != null)
+            return false;
+      } else if (!employeeNumber.equals(other.employeeNumber))
+         return false;
+      if (level != other.level)
+         return false;
+      if (name == null) {
+         if (other.name != null)
+            return false;
+      } else if (!name.equals(other.name))
+         return false;
+      if (role == null) {
+         if (other.role != null)
+            return false;
+      } else if (!role.equals(other.role))
+         return false;
+      return true;
+   }
+
 }
 
-@Override
-public boolean equals(Object obj) {
-	if (this == obj)
-		return true;
-	if (obj == null)
-		return false;
-	if (getClass() != obj.getClass())
-		return false;
-	Employee other = (Employee) obj;
-	if (employeeNumber == null) {
-		if (other.employeeNumber != null)
-			return false;
-	} else if (!employeeNumber.equals(other.employeeNumber))
-		return false;
-	if (level != other.level)
-		return false;
-	if (name == null) {
-		if (other.name != null)
-			return false;
-	} else if (!name.equals(other.name))
-		return false;
-	if (role == null) {
-		if (other.role != null)
-			return false;
-	} else if (!role.equals(other.role))
-		return false;
-	return true;
-}
 
-}
-
- 

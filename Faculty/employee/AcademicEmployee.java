@@ -3,37 +3,77 @@ package employee;
 public class AcademicEmployee extends Employee
 {
    private boolean hasPhD = false;
-
-   public AcademicEmployee(String employeeNumber, String name, String role, char level) 
+   
+	public AcademicEmployee(String employeeNumber, String name, String role, char level) 
    {
-      super(employeeNumber, name, role, level);
-
-      role = "Associate Lecturer";
-      level = 'A';
-
+		super(employeeNumber, name, role, level);
+		
+		role = "Associate Lecturer";
+		level = 'A';
+		
+	}
+	
+	@Override
+	public String getName()
+   {
+	   if(hasPhD == true) {
+	      return "Dr. " + super.getName();
+	   } else {
+	      return super.getName();
+	   }
    }
-
-   @Override
-   public String getName()
-   {
-      if(hasPhD == true) {
-         return "Dr. " + super.getName();
-      } else {
-         return super.getName();
+	
+	@Override
+	public boolean updateLevel(char level)
+	{
+	   if(level == 'E') {
+	         return false;
+	      } else {
+	         if(level >= getLevel()+2) {
+	         return false;
+	      }  
+	   }
+	   boolean valid = super.updateLevel(level);
+      if(valid == true) {
+         if(level == 'A') {
+            setRole("Associate Lecturer");
+         } else {
+            if(level == 'B') {
+               setRole("Lecturer");
+            } else {
+               if(level == 'C') {
+                  setRole("Senior Lecturer");
+               } else {
+                  if(level == 'D') {
+                     setRole("Associate Professor");
+                  } else {
+                     if(level == 'E') {
+                        setRole("Professor");
+                     }
+                  }
+               }
+            }
+         }
       }
-   }
-
-   @Override
-   public boolean updateLevel(char level)
+      return true;
+	}
+	
+	public boolean levelMustBeNotBeEorMoreThan2LevelsHigher(char level)
+	throws Exception
    {
       if(level == 'E') {
-         return false;
-      } else {
-         if(level >= getLevel()+2) {
-            return false;
+         Exception exception = new Exception("This Employee is already at the highest Pay Scale Level");
+         throw exception;
+         } else {
+            if(level >= getLevel()+2) {
+               Exception exception = new Exception("The new Pay Scale cannot be more than one level higher"
+                     + "than the employee's current Pay Scale level. Currently the level is " + getLevel()
+                           + ". You requested " + level);
+               throw exception;
          }  
       }
-      boolean valid = super.updateLevel(level);
+      boolean valid = super.validLevelIsBetweenAandE(level);
+      
       if(valid == true) {
          if(level == 'A') {
             setRole("Associate Lecturer");
@@ -57,60 +97,13 @@ public class AcademicEmployee extends Employee
       }
       return true;
    }
+	
+	@Override
+	public double getSalary()
+	{
+	   double salary = 0;
 
-   public boolean levelMustBeNotBeEorMoreThan2LevelsHigher(char level)
-         throws Exception
-   {
-      if(level == 'E') {
-         Exception exception = new Exception("This Employee is already at the highest Pay Scale Level");
-         throw exception;
-      } else {
-         if(level >= getLevel()+2) {
-            Exception exception = new Exception("The new Pay Scale cannot be more than one level higher "
-                  + "than the employee's current Pay Scale level. Currently the level is " + getLevel()
-                  + ". You requested " + level);
-            throw exception;
-         }  
-      }
-      boolean valid = super.validLevelIsBetweenAandE(level);
-      try
-      {
-         if(valid == true) {
-            if(level == 'A') {
-               setRole("Associate Lecturer");
-            } else {
-               if(level == 'B') {
-                  setRole("Lecturer");
-               } else {
-                  if(level == 'C') {
-                     setRole("Senior Lecturer");
-                  } else {
-                     if(level == 'D') {
-                        setRole("Associate Professor");
-                     } else {
-                        if(level == 'E') {
-                           setRole("Professor");
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
-
-      catch (Exception e)
-      {
-         System.out.println("Exception occurred: " + e.getMessage());
-      }
-      return true;
-   }
-
-   @Override
-   public double getSalary()
-   {
-      double salary = 0;
-
-      if (super.getLevel() == 'A')
+	   if (super.getLevel() == 'A')
       {
          salary = 50000.0;
       } else {
@@ -130,7 +123,7 @@ public class AcademicEmployee extends Employee
                   {
                      salary = 90000.0;
                   } else {
-
+                     
                   }
                }
             }  
@@ -140,39 +133,39 @@ public class AcademicEmployee extends Employee
       // note down corresponding salary for an employee at
       // the specified level
       return salary;
-   }
-
-   public boolean recordPhD()
-   {
-      if(hasPhD == false) {
-         hasPhD = true;
-         return true;
-      }
-      return false;
-   }
-
-   public void printDetails()
-   {
-      //super(getEmployeeNumber(), name, role, level);
-
-      // print basic employee details
+	}
+	
+	public boolean recordPhD()
+	{
+	   if(hasPhD == false) {
+	      hasPhD = true;
+	      return true;
+	   }
+	   return false;
+	}
+	
+	public void printDetails()
+	{
+	   //super(getEmployeeNumber(), name, role, level);
+	   
+	// print basic employee details
       System.out.printf("%-18s%s\n", "Employee Number:", getEmployeeNumber());
 
       // use the accessor for name so that the overridden version can
       // be invoked polymorphically for an AcademicEmployee later on
       System.out.printf("%-18s%s\n", 
-            "Employee Name:", getName());
+                        "Employee Name:", getName());
 
       System.out.printf("%-18s%s\n", "Employee Role:", getRole());
       System.out.printf("%-18s%c\n", "Pay Scale Level:", getLevel());
 
       // get the salary for the employee and print it to the screen
       System.out.printf("%-18s$%.2f\n", "Employee Salary:", getSalary());
-   }
+	}
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
 
-   public static void main(String[] args) {
-      // TODO Auto-generated method stub
-
-   }
+	}
 
 }

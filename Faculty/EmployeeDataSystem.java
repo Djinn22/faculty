@@ -2,8 +2,11 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 import employee.AcademicEmployee;
 import employee.Employee;
@@ -47,18 +50,44 @@ public class EmployeeDataSystem
 
 	public static void save(String fileName) throws FileNotFoundException {
 		PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
-		for (Employee empl : employees)
-			pw.println(empl.getName() + ", " + empl.getEmployeeNumber() + ", " + empl.getRole() + 
-					", " + empl.getLevel());
-		// 	      for (AcademicEmployee acad : academicEmployees)
-		// 	    	 pw.println(acad.getName() + ", " + acad.getEmployeeNumber() + ", " + acad.getRole() + 
-		// 	    			 ", " + acad.getLevel());
-		pw.close();
+		String type = "empl";
+		for (Employee empl : employees) {
+		   if(empl instanceof AcademicEmployee) 
+		   {
+		      type = "acad";
+		   }
+		      pw.println(empl.getName() + ", " + empl.getEmployeeNumber() + ", " + empl.getRole() + 
+	               ", " + empl.getLevel() + ", " + type + ", \n");
+		}
+		   pw.close();
 	}
 
 
 	public static void main(String[] args)
 	{
+	   try
+	   {
+	   BufferedReader in = new BufferedReader(new FileReader("employeeData"));
+	   String str;
+   
+	   List<String> list = new ArrayList<String>();
+	   while((str = in.readLine()) != null){
+	       list.add(str);
+	   }
+
+	   String[] stringArr = list.toArray(new String[0]);
+   
+	   for (int i = 0; i < list.size(); i++) {
+	      System.out.print(list.get(i));
+	      }
+	
+	
+	}
+   catch (Exception e)
+   {
+      System.out.println("A PayScaleException occurred: " + e.getMessage());
+   }
+
 		char selection = '\0';
 		String userInput;
 
@@ -120,14 +149,7 @@ public class EmployeeDataSystem
 						System.out.println("A FileNotFoundException occurred: " + e.getMessage());
 						e.printStackTrace();
 					}
-
-
-
-
-
-
-
-
+					break;
 				default:
 					System.out.println("Error - invalid selection!");
 				}
@@ -238,84 +260,77 @@ public class EmployeeDataSystem
 
 	public static void updateEmployeePayScaleAndRole()
 	{
-		try
-		{
-			System.out.println("\n\nEnter the Employee number you wish to change: ");
-			String employeeNumber = sc.nextLine();
-			//reset variable for employeeNumber found test
-			boolean found = false;
-			//iterate through employees ArrayList and check for employeeNumber
-			for(int i = 0; i < employees.size(); i++){
-				Employee obj = employees.get(i);
-				//If employeeNumber found in ArrayList, Get user to input new Pay Scale Level
-				if(employeeNumber.equals(obj.getEmployeeNumber())) {
-					if(obj instanceof Employee){
-						found = true;
-						System.out.println("\nEnter the new Pay Scale Level for this employee");
-						char level = sc.findInLine(".").charAt(0);
-						sc.nextLine();
+	   try
+	   {
+	      System.out.println("\n\nEnter the Employee number you wish to change: ");
+	      String employeeNumber = sc.nextLine();
+	      //reset variable for employeeNumber found test
+	      String found = "false";
+	      //iterate through employees ArrayList and check for employeeNumber
+	      for(int i = 0; i < employees.size(); i++)
+	      {
+	         Employee obj = employees.get(i);
+	         //If employeeNumber found in ArrayList, Get user to input new Pay Scale Level
+	         if(employeeNumber.equals(obj.getEmployeeNumber())) 
+	         {
+	            if(obj instanceof AcademicEmployee)
+	            {
+	               AcademicEmployee acad = (AcademicEmployee)employees.get(i);
+	               found = "true";
+	               System.out.println("\nEnter the new Pay Scale Level for this employee");
+	               char level = sc.findInLine(".").charAt(0);
+	               sc.nextLine();
+	               acad.levelMustBeNotBeEorMoreThan2LevelsHigher(level);
+	               String valid = "true";
+	               if(valid == "true")
+	               {
+	                  //notify successful completion and either get new role name or leave it unchanged 
+	                  System.out.println("\nThis employee's level has been updated successfully. "
+	                        + "this also means that the role of this Academic Employee has been"
+	                        + "Updated automatically ");
+	               }
+	               
+	            } else
+	            {
+	               found = "true";
+	               System.out.println("\nEnter the new Pay Scale Level for this employee");
+	               char level = sc.findInLine(".").charAt(0);
+	               sc.nextLine();
 
-						obj.validLevelIsBetweenAandE(level);
-                        String valid ="true";
-						if(valid == "true")
-						{
-							//notify successful completion and either get new role name or leave it unchanged 
-							System.out.println("\nThis employee's level has been updated successfully. "
-									+ "Please enter a new role for this employee, or press enter to "
-									+ "leave the employee's role unchanged.");
-							String role = sc.nextLine();
-							if(!role.equals("")) {
-								obj.setRole(role);
-								System.out.println("\nThank you. This employee's role has been updated.");
+	               obj.validLevelIsBetweenAandE(level);
+	               String valid ="true";
+	               if(valid == "true")
+	               {
+	                  //notify successful completion and either get new role name or leave it unchanged 
+	                  System.out.println("\nThis employee's level has been updated successfully. "
+	                        + "Please enter a new role for this employee, or press enter to "
+	                        + "leave the employee's role unchanged.");
+	                  String role = sc.nextLine();
+	                  if(!role.equals("")) 
+	                  {
+	                     obj.setRole(role);
+	                     System.out.println("\nThank you. This employee's role has been updated.");
+	                  } else 
+	                  {
+	                     System.out.println("\nThis employee's role has not been changed.");
+	                  }
 
-							} else {
-								System.out.println("\nThis employee's role has not been changed.");
-							}
-						} else {
-							//notify level update failure
-							System.out.println("\nThis employee's level update has failed!");
-						}
-					}
-				} else { //End of IF statement.......Put AcademicEmployee code here
-				
-				AcademicEmployee acad = (AcademicEmployee)employees.get(i);
-			    found = true;
-				System.out.println("\nEnter the new Pay Scale Level for this employee");
-				char level = sc.findInLine(".").charAt(0);
-				sc.nextLine();
-                
-				try{
-			
-				acad.levelMustBeNotBeEorMoreThan2LevelsHigher(level);
-				String valid = "true";
-				if(valid == "true")
-				{
-					//notify successful completion and either get new role name or leave it unchanged 
-					System.out.println("\nThis employee's level has been updated successfully. "
-							+ "this also means that the role of this Academic Employee has been"
-							+ "Updated automatically ");
+	               }
+	            }
+	         }
+	      } 
+	      if(found == "false");
+	      System.out.println("\nThe employee could not be found");
+	   }
+	   catch (Exception e)
+	   {
+	      System.out.println("A PayScaleException occurred: " + e.getMessage());
+	   }
 
-				} else {
-					//notify level update failure
-					System.out.println("\nThis employee's level update has failed!");
-				}
-			   
-		
-
-			//If employee number not found, error
-			if(found) {
-				System.out.println("\nThis employee could not be found!");
-			}
-		
-		}
-		catch (Exception e)
-		{
-			System.out.println("A PayScaleException occurred: " + e.getMessage());
-			e.printStackTrace();
-		}
-		
-		
 	}
+	
+	   
+	
 
 	// addNewAcademicEmployee()
 	//
@@ -328,7 +343,7 @@ public class EmployeeDataSystem
 	{
 		String role = "Associate Lecturer";
 		char level = 'A';
-
+		
 		// delete this code when you start implementing this feature
 		System.out.println("Please enter all of the requested information below.");
 
@@ -337,7 +352,6 @@ public class EmployeeDataSystem
 
 		System.out.println("Employee Number: ");
 		String employeeNumber = sc.nextLine();
-		sc.nextLine();
 
 		//List<Employee>employees = new ArrayList<Employee>();
 		employees.add(new AcademicEmployee(employeeNumber, name, role, level));
@@ -370,14 +384,14 @@ public class EmployeeDataSystem
 			Employee obj = employees.get(i);
 			//If employeeNumber found in ArrayList, Get user to input new Pay Scale Level
 			if(employeeNumber.equals(obj.getEmployeeNumber())) {
-				if(obj instanceof Employee) {
-					found = true;
-					System.out.println("\nThe PhD status can only be updated on an Academic employee.");
+				if(obj instanceof AcademicEmployee) {
+				   found = true;
+               boolean phdrec = ((AcademicEmployee) obj).recordPhD();
+               if(phdrec == true) {
+                  System.out.println("\nThe PhD has been recorded for this Academic Employee.");
 				} else {
-					found = true;
-					boolean phdrec = ((AcademicEmployee) obj).recordPhD();
-					if(phdrec == true) {
-						System.out.println("\nThe PhD has been recorded for this Academic Employee.");
+				   found = true;
+               System.out.println("\nThe PhD status can only be updated on an Academic employee.");
 					}
 					//If employee number not found, error
 					if(found == false) {

@@ -1,9 +1,6 @@
 package employee;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /*
@@ -99,7 +96,7 @@ public class Employee
    {
       if (level < 'A' || level > 'E')
       {
-         Exception exception = new Exception("The new level needs to be a single "
+         Exception exception = new PayScaleException("The new level needs to be a single "
                + "letter between A and E inclusive. You entered " + level);
          throw exception;
       }
@@ -168,12 +165,6 @@ public class Employee
       System.out.printf("%-18s$%.2f\n", "Employee Salary:", getSalary());
    }
 
-//   public void save(String fileName) throws FileNotFoundException {
-//      PrintWriter pw = new PrintWriter(new FileOutputStream(fileName));
-//      for(int i = 0; i < employees.size(); i++){
-//          pw.println(employees.getName());
-//      pw.close();
-//   }
       
       public static String listToString(List<?> list) {
          String result = "+";

@@ -66,7 +66,7 @@ public class AcademicEmployee extends Employee
          throw exception;
          } else {
             if(level >= getLevel()+2) {
-               Exception exception = new Exception("The new Pay Scale cannot be more than one level higher"
+               Exception exception = new PayScaleException("The new Pay Scale cannot be more than one level higher"
                      + "than the employee's current Pay Scale level. Currently the level is " + getLevel()
                            + ". You requested " + level);
                throw exception;

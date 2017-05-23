@@ -255,9 +255,9 @@ public class EmployeeDataSystem
 						char level = sc.findInLine(".").charAt(0);
 						sc.nextLine();
 
-						boolean valid = obj.validLevelIsBetweenAandE(level);
-
-						if(valid)
+						obj.validLevelIsBetweenAandE(level);
+                        String valid ="true";
+						if(valid == "true")
 						{
 							//notify successful completion and either get new role name or leave it unchanged 
 							System.out.println("\nThis employee's level has been updated successfully. "
@@ -277,15 +277,18 @@ public class EmployeeDataSystem
 						}
 					}
 				} else { //End of IF statement.......Put AcademicEmployee code here
-
-					found = true;
+				
+				AcademicEmployee acad = (AcademicEmployee)employees.get(i);
+			    found = true;
 				System.out.println("\nEnter the new Pay Scale Level for this employee");
 				char level = sc.findInLine(".").charAt(0);
 				sc.nextLine();
-                AcademicEmployee acad = (AcademicEmployee)employees.get(i);
-				boolean valid = acad.levelMustBeNotBeEorMoreThan2LevelsHigher(level);
-
-				if(valid)
+                
+				try{
+			
+				acad.levelMustBeNotBeEorMoreThan2LevelsHigher(level);
+				String valid = "true";
+				if(valid == "true")
 				{
 					//notify successful completion and either get new role name or leave it unchanged 
 					System.out.println("\nThis employee's level has been updated successfully. "
@@ -296,19 +299,22 @@ public class EmployeeDataSystem
 					//notify level update failure
 					System.out.println("\nThis employee's level update has failed!");
 				}
-			   }
-			}
+			   
+		
 
 			//If employee number not found, error
-			if(found == false) {
+			if(found) {
 				System.out.println("\nThis employee could not be found!");
 			}
+		
 		}
 		catch (Exception e)
 		{
 			System.out.println("A PayScaleException occurred: " + e.getMessage());
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	// addNewAcademicEmployee()

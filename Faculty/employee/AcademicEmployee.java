@@ -58,7 +58,7 @@ public class AcademicEmployee extends Employee
       return true;
 	}
 	
-	public boolean levelMustBeNotBeEorMoreThan2LevelsHigher(char level)
+	public void levelMustBeNotBeEorMoreThan2LevelsHigher(char level)
 	throws Exception
    {
       if(level == 'E') {
@@ -72,9 +72,12 @@ public class AcademicEmployee extends Employee
                throw exception;
          }  
       }
-      boolean valid = super.validLevelIsBetweenAandE(level);
+ 
+      try {
+    	  
+      super.validLevelIsBetweenAandE(level);
       
-      if(valid == true) {
+      //if(valid == true) {
          if(level == 'A') {
             setRole("Associate Lecturer");
          } else {
@@ -95,7 +98,10 @@ public class AcademicEmployee extends Employee
             }
          }
       }
-      return true;
+      catch (Exception e)
+		{
+			System.out.println("A PayScaleException occurred: " + e.getMessage());
+		}
    }
 	
 	@Override

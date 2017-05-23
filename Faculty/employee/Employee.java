@@ -91,7 +91,7 @@ public class Employee
       }
    }
 
-   public boolean validLevelIsBetweenAandE(char level)
+   public void validLevelIsBetweenAandE(char level)
          throws Exception
    {
       if (level < 'A' || level > 'E')
@@ -101,7 +101,6 @@ public class Employee
          throw exception;
       }
       this.level = level;
-      return true;
    } 
 
    // getEmployeeSalary() - requirement E) (ii)

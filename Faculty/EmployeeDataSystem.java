@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.io.File;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.Arrays;
 
 import employee.AcademicEmployee;
 import employee.Employee;
@@ -57,36 +59,70 @@ public class EmployeeDataSystem
 		      type = "acad";
 		   }
 		      pw.println(empl.getName() + ", " + empl.getEmployeeNumber() + ", " + empl.getRole() + 
-	               ", " + empl.getLevel() + ", " + type + ", \n");
+	               ", " + empl.getLevel() + ", " + type + ",");
 		}
 		   pw.close();
 	}
+	
 
-
+	private static final String FILENAME = "employeeData";
+	
 	public static void main(String[] args)
 	{
-	   try
-	   {
-	   BufferedReader in = new BufferedReader(new FileReader("employeeData"));
-	   String str;
-   
-	   List<String> list = new ArrayList<String>();
-	   while((str = in.readLine()) != null){
-	       list.add(str);
-	   }
 
-	   String[] stringArr = list.toArray(new String[0]);
-   
-	   for (int i = 0; i < list.size(); i++) {
-	      System.out.print(list.get(i));
-	      }
-	
-	
-	}
-   catch (Exception e)
-   {
-      System.out.println("A PayScaleException occurred: " + e.getMessage());
-   }
+		BufferedReader br = null;
+		FileReader fr = null;
+
+		try {
+
+			fr = new FileReader(FILENAME);
+			br = new BufferedReader(fr);
+
+			String sCurrentLine;
+
+			br = new BufferedReader(new FileReader(FILENAME));
+
+			while ((sCurrentLine = br.readLine()) != null) {
+				List<String> list = new ArrayList<String>(Arrays.asList(sCurrentLine.split(", ")));
+				if(list.get(4) == "acad") {
+					employees.add(new AcademicEmployee(list.get(1), list.get(0), list.get(2), list.get(3).charAt(0)));
+				} 
+				
+//				System.out.println(list.get(0));
+//				System.out.println(list.get(1));
+//				System.out.println(list.get(2));
+//				System.out.println(list.get(3));
+//				System.out.println(list.get(4));
+			
+			}
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (br != null)
+					br.close();
+
+				if (fr != null)
+					fr.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
+
+	   
+
+
+
+
 
 		char selection = '\0';
 		String userInput;
